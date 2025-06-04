@@ -66,127 +66,6 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
         </button>
       </div>
 
-      {/* Job Type Filters */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">JOB TYPE</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, jobType: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          <FilterCheckbox
-            label="Full Time"
-            count={146}
-            checked={filters.jobType.includes("Full Time")}
-            onChange={() => handleFilterChange("jobType", "Full Time")}
-          />
-          <FilterCheckbox
-            label="Part Time"
-            count={13}
-            checked={filters.jobType.includes("Part Time")}
-            onChange={() => handleFilterChange("jobType", "Part Time")}
-          />
-          <FilterCheckbox
-            label="Contract"
-            count={32}
-            checked={filters.jobType.includes("Contract")}
-            onChange={() => handleFilterChange("jobType", "Contract")}
-          />
-          <FilterCheckbox
-            label="Internship"
-            count={81}
-            checked={filters.jobType.includes("Internship")}
-            onChange={() => handleFilterChange("jobType", "Internship")}
-          />
-          <FilterCheckbox
-            label="Freelance"
-            count={5}
-            checked={filters.jobType.includes("Freelance")}
-            onChange={() => handleFilterChange("jobType", "Freelance")}
-          />
-        </div>
-      </div>
-
-      {/* Department Filters */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">DEPARTMENT</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, department: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          {departments.map((dept) => (
-            <FilterCheckbox
-              key={dept.label}
-              label={dept.label}
-              count={dept.count}
-              checked={filters.department.includes(dept.label)}
-              onChange={() => handleFilterChange("department", dept.label)}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Job Features */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">JOB FEATURES</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, jobFeatures: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          {jobFeatures.map((feature) => (
-            <FilterCheckbox
-              key={feature}
-              label={feature}
-              count={42}
-              checked={filters.jobFeatures.includes(feature)}
-              onChange={() => handleFilterChange("jobFeatures", feature)}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Experience Filters */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">EXPERIENCE</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, experience: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          {experienceLevels.map((exp) => (
-            <FilterCheckbox
-              key={exp.label}
-              label={exp.label}
-              count={exp.count}
-              checked={filters.experience.includes(exp.label)}
-              onChange={() => handleFilterChange("experience", exp.label)}
-            />
-          ))}
-        </div>
-      </div>
-
       {/* Location Filters */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
@@ -289,6 +168,127 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
         <button className="text-gray-500 mt-3 text-sm hover:text-gray-700">
           More →
         </button>
+      </div>
+
+      {/* Job Type Filters */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">JOB TYPE</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, jobType: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          <FilterCheckbox
+            label="Full Time"
+            count={146}
+            checked={filters.jobType.includes("Full-time")}
+            onChange={() => handleFilterChange("jobType", "Full-time")}
+          />
+          <FilterCheckbox
+            label="Part Time"
+            count={13}
+            checked={filters.jobType.includes("Part Time")}
+            onChange={() => handleFilterChange("jobType", "Part Time")}
+          />
+          <FilterCheckbox
+            label="Contract"
+            count={32}
+            checked={filters.jobType.includes("Contract")}
+            onChange={() => handleFilterChange("jobType", "Contract")}
+          />
+          <FilterCheckbox
+            label="Internship"
+            count={81}
+            checked={filters.jobType.includes("Internship")}
+            onChange={() => handleFilterChange("jobType", "Internship")}
+          />
+          <FilterCheckbox
+            label="Freelance"
+            count={5}
+            checked={filters.jobType.includes("Freelance")}
+            onChange={() => handleFilterChange("jobType", "Freelance")}
+          />
+        </div>
+      </div>
+
+      {/* Department Filters */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">DEPARTMENT</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, department: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {departments.map((dept) => (
+            <FilterCheckbox
+              key={dept.label}
+              label={dept.label}
+              count={dept.count}
+              checked={filters.department.includes(dept.label)}
+              onChange={() => handleFilterChange("department", dept.label)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Job Features */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">JOB FEATURES</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, jobFeatures: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {jobFeatures.map((feature) => (
+            <FilterCheckbox
+              key={feature}
+              label={feature}
+              count={42}
+              checked={filters.jobFeatures.includes(feature)}
+              onChange={() => handleFilterChange("jobFeatures", feature)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Experience Filters */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">EXPERIENCE</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, experience: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {experienceLevels.map((exp) => (
+            <FilterCheckbox
+              key={exp.label}
+              label={exp.label}
+              count={exp.count}
+              checked={filters.experience.includes(exp.label)}
+              onChange={() => handleFilterChange("experience", exp.label)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
