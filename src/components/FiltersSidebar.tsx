@@ -66,6 +66,52 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
         </button>
       </div>
 
+      {/* Company Filters */}
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">COMPANY</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, company: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          <FilterCheckbox
+            label="Aspire Software"
+            count={32}
+            checked={filters.company.includes("Aspire Software")}
+            onChange={() => handleFilterChange("company", "Aspire Software")}
+          />
+          <FilterCheckbox
+            label="Deloitte"
+            count={28}
+            checked={filters.company.includes("Deloitte")}
+            onChange={() => handleFilterChange("company", "Deloitte")}
+          />
+          <FilterCheckbox
+            label="Nanonets"
+            count={25}
+            checked={filters.company.includes("Nanonets")}
+            onChange={() => handleFilterChange("company", "Nanonets")}
+          />
+          <FilterCheckbox
+            label="Coditas"
+            count={22}
+            checked={filters.company.includes("Coditas")}
+            onChange={() => handleFilterChange("company", "Coditas")}
+          />
+          <FilterCheckbox
+            label="Coforge"
+            count={21}
+            checked={filters.company.includes("Coforge")}
+            onChange={() => handleFilterChange("company", "Coforge")}
+          />
+        </div>
+      </div>
+
       {/* Location Filters */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
@@ -118,56 +164,6 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             }
           />
         </div>
-      </div>
-
-      {/* Company Filters */}
-      <div>
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">COMPANY</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, company: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          <FilterCheckbox
-            label="Aspire Software"
-            count={32}
-            checked={filters.company.includes("Aspire Software")}
-            onChange={() => handleFilterChange("company", "Aspire Software")}
-          />
-          <FilterCheckbox
-            label="Deloitte"
-            count={28}
-            checked={filters.company.includes("Deloitte")}
-            onChange={() => handleFilterChange("company", "Deloitte")}
-          />
-          <FilterCheckbox
-            label="Nanonets"
-            count={25}
-            checked={filters.company.includes("Nanonets")}
-            onChange={() => handleFilterChange("company", "Nanonets")}
-          />
-          <FilterCheckbox
-            label="Coditas"
-            count={22}
-            checked={filters.company.includes("Coditas")}
-            onChange={() => handleFilterChange("company", "Coditas")}
-          />
-          <FilterCheckbox
-            label="Coforge"
-            count={21}
-            checked={filters.company.includes("Coforge")}
-            onChange={() => handleFilterChange("company", "Coforge")}
-          />
-        </div>
-
-        <button className="text-gray-500 mt-3 text-sm hover:text-gray-700">
-          More →
-        </button>
       </div>
 
       {/* Job Type Filters */}
@@ -289,6 +285,10 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             />
           ))}
         </div>
+
+        <button className="text-gray-500 mt-3 text-sm hover:text-gray-700">
+          More →
+        </button>
       </div>
     </div>
   );

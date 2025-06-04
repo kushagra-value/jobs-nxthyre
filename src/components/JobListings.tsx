@@ -5,9 +5,14 @@ import JobCard from "./JobCard";
 interface JobListingsProps {
   jobs: Job[];
   filters: FilterState;
+  loading: boolean; // <-- Add a loading prop to know if jobs are loading
 }
 
-const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
+const JobListings: React.FC<JobListingsProps> = ({
+  jobs,
+  filters,
+  loading,
+}) => {
   const [sortBy, setSortBy] = useState<string>("Date Posted");
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
 
@@ -40,6 +45,15 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
 
     return true;
   });
+
+  // Skeleton loader component (simple example)
+  const SkeletonLoader = () => (
+    <div className="space-y-4 p-4">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className="animate-pulse bg-gray-200 h-20 rounded-md" />
+      ))}
+    </div>
+  );
 
   return (
     <div className="bg-white">
@@ -79,16 +93,18 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
       </div>
 
       <div>
-        {filteredJobs.map((job) => (
-          <JobCard
-            key={job.id}
-            job={job}
-            isSaved={savedJobs.includes(job.id)}
-            onSaveJob={() => handleSaveJob(job.id)}
-          />
-        ))}
-
-        {filteredJobs.length === 0 && (
+        {loading ? (
+          <SkeletonLoader />
+        ) : filteredJobs.length > 0 ? (
+          filteredJobs.map((job) => (
+            <JobCard
+              key={job.id}
+              job={job}
+              isSaved={savedJobs.includes(job.id)}
+              onSaveJob={() => handleSaveJob(job.id)}
+            />
+          ))
+        ) : (
           <div className="p-8 text-center">
             <p className="text-gray-500">No jobs match your current filters.</p>
             <button className="mt-2 text-blue-600 hover:underline">
