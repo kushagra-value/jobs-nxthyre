@@ -16,22 +16,6 @@ function JobDetailsPage() {
   const { id } = useParams();
   const [job, setJob] = useState<Job | null>(null);
   const [relatedJobs, setRelatedJobs] = useState<Job[]>([]);
-  const [showUploadModal, setShowUploadModal] = useState(false);
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      console.log("Uploading file:", file.name);
-      setShowUploadModal(false);
-    }
-  };
-
-  useEffect(() => {
-    fetch("/api/jobs")
-      .then((res) => res.json())
-      .then(setJob)
-      .catch(console.error);
-  }, []);
 
   useEffect(() => {
     fetch("/api/jobs")
@@ -57,11 +41,7 @@ function JobDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header
-        showUploadModal={showUploadModal}
-        setShowUploadModal={setShowUploadModal}
-        handleFileUpload={handleFileUpload}
-      />
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -75,7 +55,7 @@ function JobDetailsPage() {
                   </h1>
                   <div className="mt-2 flex items-center text-gray-600">
                     <Building2 size={18} className="mr-2" />
-                    <span>{job.company || "N/A"}</span>
+                    <span>{job.company}</span>
                   </div>
                 </div>
                 <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
@@ -86,31 +66,31 @@ function JobDetailsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="flex items-center text-gray-600">
                   <Briefcase size={18} className="mr-2" />
-                  <span>{job.jobType || "N/A"}</span>
+                  <span>{job.jobType}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <MapPin size={18} className="mr-2" />
-                  <span>{job.location || "N/A"}</span>
+                  <span>{job.location}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <Clock size={18} className="mr-2" />
-                  <span>{job.experience || "N/A"}</span>
+                  <span>{job.experience}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <GraduationCap size={18} className="mr-2" />
-                  <span>{job.education || "N/A"}</span>
+                  <span>{job.education}</span>
                 </div>
               </div>
 
               <div className="prose max-w-none">
                 <h2 className="text-xl font-semibold mb-4">Job Description</h2>
-                <p className="text-gray-600 mb-6">{job.description || "N/A"}</p>
+                <p className="text-gray-600 mb-6">{job.description}</p>
 
                 <h2 className="text-xl font-semibold mb-4">Requirements</h2>
                 <ul className="list-disc pl-5 mb-6">
                   {job.requirements.map((req, index) => (
                     <li key={index} className="text-gray-600 mb-2">
-                      {req || "N/A"}
+                      {req}
                     </li>
                   ))}
                 </ul>
@@ -119,7 +99,7 @@ function JobDetailsPage() {
                 <ul className="list-disc pl-5 mb-6">
                   {job.responsibilities.map((resp, index) => (
                     <li key={index} className="text-gray-600 mb-2">
-                      {resp || "N/A"}
+                      {resp}
                     </li>
                   ))}
                 </ul>
@@ -131,7 +111,7 @@ function JobDetailsPage() {
                       key={index}
                       className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
                     >
-                      {skill || "N/A"}
+                      {skill}
                     </span>
                   ))}
                 </div>
@@ -163,14 +143,13 @@ function JobDetailsPage() {
                     className="block p-4 border rounded-lg hover:border-blue-500"
                   >
                     <h3 className="font-medium text-gray-900">
-                      {relatedJob.title || "N/A"}
+                      {relatedJob.title}
                     </h3>
                     <p className="text-sm text-gray-600">
-                      {relatedJob.company || "N/A"}
+                      {relatedJob.company}
                     </p>
                     <div className="mt-2 text-sm text-gray-500">
-                      {relatedJob.location || "N/A"} •{" "}
-                      {relatedJob.jobType || "N/A"}
+                      {relatedJob.location} • {relatedJob.jobType}
                     </div>
                   </Link>
                 ))}
