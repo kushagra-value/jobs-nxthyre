@@ -51,11 +51,11 @@ function JobDetailsPage() {
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">
-                    {job.title}
+                    {job.title || "N/A"}
                   </h1>
                   <div className="mt-2 flex items-center text-gray-600">
                     <Building2 size={18} className="mr-2" />
-                    <span>{job.company}</span>
+                    <span>{job.company || "N/A"}</span>
                   </div>
                 </div>
                 <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
@@ -66,19 +66,19 @@ function JobDetailsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="flex items-center text-gray-600">
                   <Briefcase size={18} className="mr-2" />
-                  <span>{job.jobType}</span>
+                  <span>{job.jobType || "N/A"}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <MapPin size={18} className="mr-2" />
-                  <span>{job.location}</span>
+                  <span>{job.location || "N/A"}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <Clock size={18} className="mr-2" />
-                  <span>{job.experience}</span>
+                  <span>{job.experience || "N/A"}</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <GraduationCap size={18} className="mr-2" />
-                  <span>{job.education}</span>
+                  <span>{job.education || "N/A"}</span>
                 </div>
               </div>
 
