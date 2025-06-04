@@ -17,9 +17,14 @@ const Header: React.FC<HeaderProps> = ({
     <>
       <header className="bg-[#080736] text-white px-6 py-4 flex items-center justify-between">
         <div className="flex items-center">
-          <Link to="/" className="mr-10">
-            <span className="text-2xl font-bold">Jobs.</span>
+          <Link to="/" className="mr-10 flex items-center">
+            <img
+              src="/NxtHyre_Logo.png"
+              alt="NxtHyre Logo"
+              className="h-10 w-auto"
+            />
           </Link>
+
           <nav className="hidden md:flex">
             <ul className="flex space-x-6">
               <li>
