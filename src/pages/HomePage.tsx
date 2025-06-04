@@ -9,6 +9,15 @@ import { popularCompanies } from "../data/mockData"; // keep this if you want st
 
 function HomePage() {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log("Uploading file:", file.name);
+      setShowUploadModal(false);
+    }
+  };
 
   useEffect(() => {
     fetch("/api/jobs")
@@ -39,7 +48,11 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <Header
+        showUploadModal={showUploadModal}
+        setShowUploadModal={setShowUploadModal}
+        handleFileUpload={handleFileUpload}
+      />
       <HeroSection />
 
       <main className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -52,7 +65,10 @@ function HomePage() {
         </div>
 
         <div className="md:col-span-6">
-          <div className="mb-4 bg-blue-200 bg-opacity-20 rounded-lg px-4 py-2 flex items-start max-w-full border border-indigo-400 cursor-pointer">
+          <div
+            className="mb-4 bg-blue-200 bg-opacity-20 rounded-lg px-4 py-2 flex items-start max-w-full border border-indigo-400 cursor-pointer"
+            onClick={() => setShowUploadModal(true)}
+          >
             <div className="text-blue-800 p-1.5 rounded mr-2 mt-2.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

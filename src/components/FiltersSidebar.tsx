@@ -201,7 +201,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
 
         <div className="space-y-2">
           <FilterCheckbox
-            label="Chicago, IL"
+            label="Bengaluru, Karnataka"
             count={256}
             checked={filters.location.includes("Bengaluru, Karnataka")}
             onChange={() =>
@@ -209,7 +209,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             }
           />
           <FilterCheckbox
-            label="New York, NY"
+            label="Pimpri-Chinchwad, Maharashtra"
             count={148}
             checked={filters.location.includes("Pimpri-Chinchwad, Maharashtra")}
             onChange={() =>
@@ -217,13 +217,13 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             }
           />
           <FilterCheckbox
-            label="Oak Brook, IL"
+            label="Pune, Maharashtra"
             count={39}
             checked={filters.location.includes("Pune, Maharashtra")}
             onChange={() => handleFilterChange("location", "Pune, Maharashtra")}
           />
           <FilterCheckbox
-            label="Northbrook, IL"
+            label="Chennai, Tamil Nadu"
             count={37}
             checked={filters.location.includes("Chennai, Tamil Nadu")}
             onChange={() =>
@@ -231,7 +231,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             }
           />
           <FilterCheckbox
-            label="Skokie, IL"
+            label="Hyderabad, Telangana"
             count={32}
             checked={filters.location.includes("Hyderabad, Telangana")}
             onChange={() =>
@@ -255,36 +255,34 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
 
         <div className="space-y-2">
           <FilterCheckbox
-            label="Abbott"
+            label="Aspire Software"
             count={32}
-            checked={filters.company.includes("Abbott")}
-            onChange={() => handleFilterChange("company", "Abbott")}
+            checked={filters.company.includes("Aspire Software")}
+            onChange={() => handleFilterChange("company", "Aspire Software")}
           />
           <FilterCheckbox
-            label="Directive Solutions"
+            label="Deloitte"
             count={28}
-            checked={filters.company.includes("Directive Solutions")}
-            onChange={() =>
-              handleFilterChange("company", "Directive Solutions")
-            }
+            checked={filters.company.includes("Deloitte")}
+            onChange={() => handleFilterChange("company", "Deloitte")}
           />
           <FilterCheckbox
-            label="Motorola"
+            label="Nanonets"
             count={25}
-            checked={filters.company.includes("Motorola")}
-            onChange={() => handleFilterChange("company", "Motorola")}
+            checked={filters.company.includes("Nanonets")}
+            onChange={() => handleFilterChange("company", "Nanonets")}
           />
           <FilterCheckbox
-            label="Caterpillar Inc."
+            label="Coditas"
             count={22}
-            checked={filters.company.includes("Caterpillar Inc.")}
-            onChange={() => handleFilterChange("company", "Caterpillar Inc.")}
+            checked={filters.company.includes("Coditas")}
+            onChange={() => handleFilterChange("company", "Coditas")}
           />
           <FilterCheckbox
-            label="Zebra Technologies"
+            label="Coforge"
             count={21}
-            checked={filters.company.includes("Zebra Technologies")}
-            onChange={() => handleFilterChange("company", "Zebra Technologies")}
+            checked={filters.company.includes("Coforge")}
+            onChange={() => handleFilterChange("company", "Coforge")}
           />
         </div>
 

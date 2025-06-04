@@ -67,7 +67,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
                 {title}
               </h3>
               <div className="text-sm text-gray-600 mt-1">
-                {company} • {location}
+                {company || "N/A"} • {location || "N/A"}
               </div>
             </Link>
           </div>
@@ -75,11 +75,11 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
           <div className="grid grid-cols-3 mt-4 gap-2">
             <div>
               <p className="text-xs text-gray-500 mb-1">Experience</p>
-              <p className="text-sm font-medium">{experience}</p>
+              <p className="text-sm font-medium">{experience || "N/A"}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 mb-1">Job Type</p>
-              <p className="text-sm font-medium">{jobType}</p>
+              <p className="text-sm font-medium">{jobType || "N/A"}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 mb-1">Salary</p>

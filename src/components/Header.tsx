@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Bell, ChevronDown, Upload } from 'lucide-react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Bell, ChevronDown, Upload } from "lucide-react";
 
-const Header: React.FC = () => {
-  const [showUploadModal, setShowUploadModal] = useState(false);
+interface HeaderProps {
+  showUploadModal: boolean;
+  setShowUploadModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Handle file upload logic here
-      console.log('Uploading file:', file.name);
-      setShowUploadModal(false);
-    }
-  };
-
+const Header: React.FC<HeaderProps> = ({
+  showUploadModal,
+  setShowUploadModal,
+  handleFileUpload,
+}) => {
   return (
     <>
       <header className="bg-[#080736] text-white px-6 py-4 flex items-center justify-between">
@@ -24,36 +23,47 @@ const Header: React.FC = () => {
           <nav className="hidden md:flex">
             <ul className="flex space-x-6">
               <li>
-                <Link to="/jobs" className="font-semibold">Find Jobs</Link>
+                <Link to="/jobs" className="font-semibold">
+                  Find Jobs
+                </Link>
               </li>
               <li>
-                <Link to="/companies" className="text-gray-300 hover:text-white">Companies</Link>
+                <Link
+                  to="/companies"
+                  className="text-gray-300 hover:text-white"
+                >
+                  Companies
+                </Link>
               </li>
               <li>
-                <Link to="/reviews" className="text-gray-300 hover:text-white">Reviews</Link>
+                <Link to="/reviews" className="text-gray-300 hover:text-white">
+                  Reviews
+                </Link>
               </li>
               <li>
-                <Link to="/services" className="text-gray-300 hover:text-white">Services</Link>
+                <Link to="/services" className="text-gray-300 hover:text-white">
+                  Services
+                </Link>
               </li>
             </ul>
           </nav>
         </div>
-        
+
         <div className="flex items-center space-x-4">
-          <button 
+          <button
             onClick={() => setShowUploadModal(true)}
             className="flex items-center space-x-2 text-sm border border-gray-600 rounded-lg px-3 py-1.5 hover:bg-gray-800"
           >
             <Upload size={18} />
             <span>Upload Resume</span>
           </button>
-          
+
           <div className="relative">
             <button className="text-gray-300 hover:text-white">
               <Bell size={20} />
             </button>
           </div>
-          
+
           <div className="flex items-center space-x-1 cursor-pointer">
             <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-medium">
               S
