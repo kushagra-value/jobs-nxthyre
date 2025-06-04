@@ -67,7 +67,7 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
       </div>
 
       {/* Company Filters */}
-      <div>
+      <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
           <h3 className="font-semibold text-sm text-gray-500">COMPANY</h3>
           <button

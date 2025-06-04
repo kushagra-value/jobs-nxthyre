@@ -15,18 +15,18 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <>
-      <header className="bg-[#080736] text-white px-6 py-4 flex items-center justify-between">
+      <header className="bg-[#080736] text-white pl-20 pr-8 py-4 flex items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="mr-10 flex items-center">
             <img
               src="/NxtHyre_Logo.png"
               alt="NxtHyre Logo"
-              className="h-10 w-auto"
+              className="h-14 w-auto"
             />
           </Link>
 
           <nav className="hidden md:flex">
-            <ul className="flex space-x-6">
+            <ul className="flex space-x-10">
               <li>
                 <Link to="/jobs" className="font-semibold">
                   Find Jobs
@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-8">
           <button
             onClick={() => setShowUploadModal(true)}
             className="flex items-center space-x-2 text-sm border border-gray-600 rounded-lg px-3 py-1.5 hover:bg-gray-800"
