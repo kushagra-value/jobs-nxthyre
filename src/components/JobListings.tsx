@@ -8,6 +8,16 @@ interface JobListingsProps {
   loading: boolean; // <-- Add a loading prop to know if jobs are loading
 }
 
+function JobListingsSkeleton() {
+  return (
+    <div className="space-y-4 p-4 animate-pulse">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className="h-20 bg-gray-300 rounded-lg"></div>
+      ))}
+    </div>
+  );
+}
+
 const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
   const [sortBy, setSortBy] = useState<string>("Date Posted");
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
@@ -109,14 +119,16 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
               onSaveJob={() => handleSaveJob(job.id)}
             />
           ))
-        ) : showNoJobsMessage ? (
+        ) : !showNoJobsMessage ? (
+          <JobListingsSkeleton />
+        ) : (
           <div className="p-8 text-center">
             <p className="text-gray-500">No jobs match your current filters.</p>
             <button className="mt-2 text-blue-600 hover:underline">
               Clear filters
             </button>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
