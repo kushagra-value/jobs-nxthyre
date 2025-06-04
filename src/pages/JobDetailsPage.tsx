@@ -16,8 +16,13 @@ function JobDetailsPage() {
   const { id } = useParams();
   const [job, setJob] = useState<Job | null>(null);
   const [relatedJobs, setRelatedJobs] = useState<Job[]>([]);
+  const [showNotFoundMessage, setShowNotFoundMessage] = useState(false);
 
   useEffect(() => {
+    // Reset message and job on id change
+    setShowNotFoundMessage(false);
+    setJob(null);
+
     fetch("/api/jobs")
       .then((res) => res.json())
       .then((data: Job[]) => {
@@ -35,8 +40,34 @@ function JobDetailsPage() {
       .catch(console.error);
   }, [id]);
 
-  if (!job) {
-    return <div>Job not found</div>;
+  useEffect(() => {
+    if (job === null) {
+      // Start 10 second timer before showing "Job not found"
+      const timer = setTimeout(() => {
+        setShowNotFoundMessage(true);
+      }, 10000);
+
+      return () => {
+        clearTimeout(timer);
+        setShowNotFoundMessage(false);
+      };
+    } else {
+      // If job is loaded, hide the message immediately
+      setShowNotFoundMessage(false);
+    }
+  }, [job]);
+
+  if (job === null && !showNotFoundMessage) {
+    // Waiting period — don't show anything yet (or show a loader if you want)
+    return null;
+  }
+
+  if (showNotFoundMessage) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500 text-xl">
+        Job not found
+      </div>
+    );
   }
 
   return (

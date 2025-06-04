@@ -46,10 +46,10 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
 
   useEffect(() => {
     if (filteredJobs.length === 0) {
-      // Start 10 second timer before showing message
+      // Start 4 second timer before showing message
       const timer = setTimeout(() => {
         setShowNoJobsMessage(true);
-      }, 10000);
+      }, 4000);
 
       // Cleanup timer if filteredJobs changes before 10s
       return () => {
