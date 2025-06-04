@@ -8,11 +8,7 @@ interface JobListingsProps {
   loading: boolean; // <-- Add a loading prop to know if jobs are loading
 }
 
-const JobListings: React.FC<JobListingsProps> = ({
-  jobs,
-  filters,
-  loading,
-}) => {
+const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
   const [sortBy, setSortBy] = useState<string>("Date Posted");
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
 
@@ -49,28 +45,22 @@ const JobListings: React.FC<JobListingsProps> = ({
   });
 
   useEffect(() => {
-    if (!loading && filteredJobs.length === 0) {
-      // Start 10 second timer to show message
+    if (filteredJobs.length === 0) {
+      // Start 10 second timer before showing message
       const timer = setTimeout(() => {
         setShowNoJobsMessage(true);
-      }, 10000); // 10,000 ms = 10 seconds
+      }, 10000);
 
-      // Cleanup timer if filters or jobs change before 10s
-      return () => clearTimeout(timer);
+      // Cleanup timer if filteredJobs changes before 10s
+      return () => {
+        clearTimeout(timer);
+        setShowNoJobsMessage(false); // Reset message when jobs come
+      };
     } else {
-      // If jobs exist or still loading, hide message and clear timer
+      // If we have jobs, hide message immediately
       setShowNoJobsMessage(false);
     }
-  }, [loading, filteredJobs]);
-
-  // Skeleton loader component (simple example)
-  const SkeletonLoader = () => (
-    <div className="space-y-4 p-4">
-      {[...Array(5)].map((_, i) => (
-        <div key={i} className="animate-pulse bg-gray-200 h-20 rounded-md" />
-      ))}
-    </div>
-  );
+  }, [filteredJobs]);
 
   return (
     <div className="bg-white">
@@ -110,9 +100,7 @@ const JobListings: React.FC<JobListingsProps> = ({
       </div>
 
       <div>
-        {loading ? (
-          <SkeletonLoader />
-        ) : filteredJobs.length > 0 ? (
+        {filteredJobs.length > 0 ? (
           filteredJobs.map((job) => (
             <JobCard
               key={job.id}
@@ -121,14 +109,14 @@ const JobListings: React.FC<JobListingsProps> = ({
               onSaveJob={() => handleSaveJob(job.id)}
             />
           ))
-        ) : (
+        ) : showNoJobsMessage ? (
           <div className="p-8 text-center">
             <p className="text-gray-500">No jobs match your current filters.</p>
             <button className="mt-2 text-blue-600 hover:underline">
               Clear filters
             </button>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
