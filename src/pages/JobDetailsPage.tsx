@@ -83,6 +83,18 @@ function JobDetailsPage() {
               </div>
 
               <div className="prose max-w-none">
+                <h2 className="text-xl font-semibold mb-4">Skills Required</h2>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {job.skills.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
                 <h2 className="text-xl font-semibold mb-4">Job Description</h2>
                 <p className="text-gray-600 mb-6">{job.description}</p>
 
@@ -103,18 +115,6 @@ function JobDetailsPage() {
                     </li>
                   ))}
                 </ul>
-
-                <h2 className="text-xl font-semibold mb-4">Skills Required</h2>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {job.skills.map((skill, index) => (
-                    <span
-                      key={index}
-                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
