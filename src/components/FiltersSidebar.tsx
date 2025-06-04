@@ -203,32 +203,40 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
           <FilterCheckbox
             label="Chicago, IL"
             count={256}
-            checked={filters.location.includes("Chicago, IL")}
-            onChange={() => handleFilterChange("location", "Chicago, IL")}
+            checked={filters.location.includes("Bengaluru, Karnataka")}
+            onChange={() =>
+              handleFilterChange("location", "Bengaluru, Karnataka")
+            }
           />
           <FilterCheckbox
             label="New York, NY"
             count={148}
-            checked={filters.location.includes("New York, NY")}
-            onChange={() => handleFilterChange("location", "New York, NY")}
+            checked={filters.location.includes("Pimpri-Chinchwad, Maharashtra")}
+            onChange={() =>
+              handleFilterChange("location", "Pimpri-Chinchwad, Maharashtra")
+            }
           />
           <FilterCheckbox
             label="Oak Brook, IL"
             count={39}
-            checked={filters.location.includes("Oak Brook, IL")}
-            onChange={() => handleFilterChange("location", "Oak Brook, IL")}
+            checked={filters.location.includes("Pune, Maharashtra")}
+            onChange={() => handleFilterChange("location", "Pune, Maharashtra")}
           />
           <FilterCheckbox
             label="Northbrook, IL"
             count={37}
-            checked={filters.location.includes("Northbrook, IL")}
-            onChange={() => handleFilterChange("location", "Northbrook, IL")}
+            checked={filters.location.includes("Chennai, Tamil Nadu")}
+            onChange={() =>
+              handleFilterChange("location", "Chennai, Tamil Nadu")
+            }
           />
           <FilterCheckbox
             label="Skokie, IL"
             count={32}
-            checked={filters.location.includes("Skokie, IL")}
-            onChange={() => handleFilterChange("location", "Skokie, IL")}
+            checked={filters.location.includes("Hyderabad, Telangana")}
+            onChange={() =>
+              handleFilterChange("location", "Hyderabad, Telangana")
+            }
           />
         </div>
       </div>
