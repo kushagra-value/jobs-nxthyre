@@ -12,6 +12,69 @@ import {
 import { useEffect, useState } from "react";
 import { Job } from "../types";
 
+function JobDetailsSkeleton() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8 animate-pulse">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Content Skeleton */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-gray-300 rounded-lg h-10 w-1/3"></div>{" "}
+          {/* Title */}
+          <div className="bg-gray-300 rounded-lg h-6 w-1/4"></div>{" "}
+          {/* Company */}
+          <div className="flex space-x-4 mt-6">
+            <div className="bg-gray-300 rounded-lg h-8 w-20"></div>
+            <div className="bg-gray-300 rounded-lg h-8 w-20"></div>
+            <div className="bg-gray-300 rounded-lg h-8 w-20"></div>
+            <div className="bg-gray-300 rounded-lg h-8 w-20"></div>
+          </div>
+          <div className="space-y-4 mt-8">
+            <div className="bg-gray-300 rounded-lg h-6 w-1/5"></div>{" "}
+            {/* Section header */}
+            <div className="bg-gray-300 rounded-lg h-4 w-full"></div>{" "}
+            {/* Paragraph */}
+            <div className="bg-gray-300 rounded-lg h-4 w-full"></div>
+            <div className="bg-gray-300 rounded-lg h-4 w-3/4"></div>
+          </div>
+          <div className="space-y-4 mt-8">
+            <div className="bg-gray-300 rounded-lg h-6 w-1/5"></div>
+            <ul className="space-y-2">
+              {[...Array(4)].map((_, i) => (
+                <li key={i} className="bg-gray-300 rounded-lg h-4 w-full"></li>
+              ))}
+            </ul>
+          </div>
+          <div className="space-y-4 mt-8">
+            <div className="bg-gray-300 rounded-lg h-6 w-1/5"></div>
+            <ul className="space-y-2">
+              {[...Array(4)].map((_, i) => (
+                <li key={i} className="bg-gray-300 rounded-lg h-4 w-full"></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Sidebar Skeleton */}
+        <div className="space-y-6">
+          <div className="bg-gray-300 rounded-lg h-8 w-1/3"></div>{" "}
+          {/* Sidebar Title */}
+          <div className="space-y-3">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="bg-gray-300 rounded-lg h-6 w-full"></div>
+            ))}
+          </div>
+          <div className="bg-gray-300 rounded-lg h-8 w-1/3 mt-6"></div>
+          <div className="space-y-4 mt-3">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="bg-gray-300 rounded-lg h-12 w-full"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function JobDetailsPage() {
   const { id } = useParams();
   const [job, setJob] = useState<Job | null>(null);
@@ -42,10 +105,10 @@ function JobDetailsPage() {
 
   useEffect(() => {
     if (job === null) {
-      // Start 10 second timer before showing "Job not found"
+      // Start 4 second timer before showing "Job not found"
       const timer = setTimeout(() => {
         setShowNotFoundMessage(true);
-      }, 10000);
+      }, 4000);
 
       return () => {
         clearTimeout(timer);
@@ -58,8 +121,7 @@ function JobDetailsPage() {
   }, [job]);
 
   if (job === null && !showNotFoundMessage) {
-    // Waiting period — don't show anything yet (or show a loader if you want)
-    return null;
+    return <JobDetailsSkeleton />;
   }
 
   if (showNotFoundMessage) {
