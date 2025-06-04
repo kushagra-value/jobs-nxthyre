@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Job, FilterState } from "../types";
 import JobCard from "./JobCard";
 
@@ -15,6 +15,8 @@ const JobListings: React.FC<JobListingsProps> = ({
 }) => {
   const [sortBy, setSortBy] = useState<string>("Date Posted");
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
+
+  const [showNoJobsMessage, setShowNoJobsMessage] = useState(false);
 
   const handleSaveJob = (jobId: string) => {
     setSavedJobs((prev) =>
@@ -45,6 +47,21 @@ const JobListings: React.FC<JobListingsProps> = ({
 
     return true;
   });
+
+  useEffect(() => {
+    if (!loading && filteredJobs.length === 0) {
+      // Start 10 second timer to show message
+      const timer = setTimeout(() => {
+        setShowNoJobsMessage(true);
+      }, 10000); // 10,000 ms = 10 seconds
+
+      // Cleanup timer if filters or jobs change before 10s
+      return () => clearTimeout(timer);
+    } else {
+      // If jobs exist or still loading, hide message and clear timer
+      setShowNoJobsMessage(false);
+    }
+  }, [loading, filteredJobs]);
 
   // Skeleton loader component (simple example)
   const SkeletonLoader = () => (
