@@ -86,7 +86,7 @@ function JobDetailsPage() {
     setShowNotFoundMessage(false);
     setJob(null);
 
-    fetch("/api/jobs")
+    fetch("https://jobs-nxthyre.vercel.app/api/jobs")
       .then((res) => res.json())
       .then((data: Job[]) => {
         const selected = data.find((j) => j.id === id);

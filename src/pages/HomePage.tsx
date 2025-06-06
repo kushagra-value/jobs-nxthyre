@@ -20,7 +20,7 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetch("/api/jobs")
+    fetch("https://jobs-nxthyre.vercel.app/api/jobs")
       .then((res) => res.json())
       .then(setJobs)
       .catch(console.error);
