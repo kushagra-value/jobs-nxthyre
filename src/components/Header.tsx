@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({
             <img
               src="/NxtHyre_Logo.png"
               alt="NxtHyre Logo"
-              className="h-14 w-auto"
+              className="h-14 w-auto" // h-14 for png transparent logo
             />
           </Link>
 
