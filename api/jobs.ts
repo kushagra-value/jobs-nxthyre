@@ -30,8 +30,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const client = await connectToDatabase();
-    const db = client.db("nxthyre-jobs");
-    const jobs = await db.collection("AI-ML-Jobs").find({}).limit(34).toArray();
+    const db = client.db("g_jobs_serp_api");
+    const jobs = await db.collection("parsed_jobs").find({}).limit(34).toArray();
     res.status(200).json(jobs);
   } catch (error) {
     console.error(error);
