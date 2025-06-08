@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import FiltersSidebar from "../components/FiltersSidebar";
 import JobListings from "../components/JobListings";
 import RightSidebar from "../components/RightSidebar";
 import { Job, FilterState } from "../types";
-import { popularCompanies } from "../data/mockData"; // keep this if you want static sidebar
+import { popularCompanies } from "../data/mockData";
 
 function HomePage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -46,6 +46,69 @@ function HomePage() {
     });
   };
 
+  // Compute company options
+  const companyOptions = useMemo(() => {
+    const counts = jobs.reduce((acc, job) => {
+      const company = job.company;
+      if (company) {
+        acc[company] = (acc[company] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(counts)
+      .map(([value, count]) => ({ label: value, value, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 7);
+  }, [jobs]);
+
+  // Compute location options
+  const locationOptions = useMemo(() => {
+    const counts = jobs.reduce((acc, job) => {
+      const location = job.location;
+      if (location) {
+        acc[location] = (acc[location] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(counts)
+      .map(([value, count]) => {
+        const label = value.split(",")[0].trim();
+        return { label, value, count };
+      })
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8);
+  }, [jobs]);
+
+  // Compute job type options
+  const jobTypeOptions = useMemo(() => {
+    const counts = jobs.reduce((acc, job) => {
+      const jobType = job.jobType;
+      if (jobType) {
+        acc[jobType] = (acc[jobType] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(counts)
+      .map(([value, count]) => ({ label: value, value, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8);
+  }, [jobs]);
+
+  // Compute department options
+  const departmentOptions = useMemo(() => {
+    const counts = jobs.reduce((acc, job) => {
+      const department = job.department;
+      if (department) {
+        acc[department] = (acc[department] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(counts)
+      .map(([value, count]) => ({ label: value, value, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 7);
+  }, [jobs]);
+
   return (
     <div className="min-h-screen bg-white">
       <Header
@@ -61,6 +124,10 @@ function HomePage() {
             filters={filters}
             setFilters={setFilters}
             clearFilters={clearFilters}
+            companyOptions={companyOptions}
+            locationOptions={locationOptions}
+            jobTypeOptions={jobTypeOptions}
+            departmentOptions={departmentOptions}
           />
         </div>
 

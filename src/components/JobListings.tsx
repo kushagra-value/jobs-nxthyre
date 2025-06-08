@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Job, FilterState } from "../types";
 import JobCard from "./JobCard";
 
 interface JobListingsProps {
   jobs: Job[];
   filters: FilterState;
-  loading: boolean; // <-- Add a loading prop to know if jobs are loading
+  loading: boolean;
 }
 
 function JobListingsSkeleton() {
@@ -21,8 +21,11 @@ function JobListingsSkeleton() {
 const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
   const [sortBy, setSortBy] = useState<string>("Date Posted");
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
-
   const [showNoJobsMessage, setShowNoJobsMessage] = useState(false);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 5;
 
   const handleSaveJob = (jobId: string) => {
     setSavedJobs((prev) =>
@@ -32,45 +35,52 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
     );
   };
 
-  const filteredJobs = jobs.filter((job) => {
-    // Apply job type filter
-    if (filters.jobType.length > 0 && !filters.jobType.includes(job.jobType)) {
-      return false;
-    }
+  const filteredJobs = useMemo(() => {
+    return jobs.filter((job) => {
+      if (filters.jobType.length > 0 && !filters.jobType.includes(job.jobType))
+        return false;
+      if (
+        filters.location.length > 0 &&
+        !filters.location.includes(job.location)
+      )
+        return false;
+      if (filters.company.length > 0 && !filters.company.includes(job.company))
+        return false;
+      return true;
+    });
+  }, [jobs, filters]);
 
-    // Apply location filter
-    if (
-      filters.location.length > 0 &&
-      !filters.location.includes(job.location)
-    ) {
-      return false;
-    }
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
-    // Apply company filter
-    if (filters.company.length > 0 && !filters.company.includes(job.company)) {
-      return false;
-    }
-
-    return true;
-  });
+  const currentJobs = useMemo(() => {
+    const indexOfLastJob = currentPage * jobsPerPage;
+    const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+    return filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
+  }, [filteredJobs, currentPage]);
 
   useEffect(() => {
     if (filteredJobs.length === 0) {
-      // Start 4 second timer before showing message
       const timer = setTimeout(() => {
         setShowNoJobsMessage(true);
       }, 4000);
 
-      // Cleanup timer if filteredJobs changes before 10s
       return () => {
         clearTimeout(timer);
-        setShowNoJobsMessage(false); // Reset message when jobs come
+        setShowNoJobsMessage(false);
       };
     } else {
-      // If we have jobs, hide message immediately
       setShowNoJobsMessage(false);
     }
+
+    setCurrentPage(1); // Reset page when filters change
   }, [filteredJobs]);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="bg-white">
@@ -110,8 +120,8 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
       </div>
 
       <div>
-        {filteredJobs.length > 0 ? (
-          filteredJobs.map((job) => (
+        {currentJobs.length > 0 ? (
+          currentJobs.map((job) => (
             <JobCard
               key={job.id}
               job={job}
@@ -130,6 +140,47 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
           </div>
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center space-x-2 py-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 rounded ${
+              currentPage === 1
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-100 text-blue-600 hover:bg-blue-200"
+            }`}
+          >
+            Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-3 py-1 rounded ${
+                currentPage === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 rounded ${
+              currentPage === totalPages
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-100 text-blue-600 hover:bg-blue-200"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

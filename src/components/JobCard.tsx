@@ -22,11 +22,23 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
     companyLogo,
   } = job;
 
+  const slugify = (text) => {
+    if (!text) return "unknown";
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+  };
+
   const renderLogo = () => {
     if (!companyLogo) {
       return (
         <div className="w-10 h-10 rounded bg-gray-200 flex items-center justify-center text-gray-500 font-semibold">
-          {company.charAt(0)}
+          {company ? company.charAt(0) : "?"}
         </div>
       );
     }
@@ -54,15 +66,18 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
   };
 
   return (
-    <div className="p-4 border border-gray-200 rounded-md shadow-lg mb-4 hover:bg-gray-50 transition-colors relative">
+    <div className="border border-gray-200 rounded-md shadow-lg mb-4 hover:bg-gray-50 transition-colors relative">
       {renderBadge()}
 
-      <div className="flex">
+      <div className="flex p-4">
         <div className="mr-4">{renderLogo()}</div>
 
         <div className="flex-1">
           <div className="flex justify-between">
-            <Link to={`/job/${id}`} className="group">
+            <Link
+              to={`/job/${slugify(company)}/${slugify(title)}/${id}`}
+              className="group"
+            >
               <h3 className="font-semibold text-lg text-gray-900 group-hover:text-blue-600">
                 {title}
               </h3>
@@ -86,25 +101,24 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
               <p className="text-sm font-medium">{salary || "Not specified"}</p>
             </div>
           </div>
-
-          <div className="flex justify-between items-center mt-4">
-            <div className="text-xs text-gray-500">
-              {postedTime || "Recently posted"}
-            </div>
-
-            <button
-              onClick={onSaveJob}
-              className="flex items-center text-sm text-gray-600 hover:text-blue-600"
-            >
-              {isSaved ? (
-                <BookmarkCheck className="w-5 h-5 text-blue-600" />
-              ) : (
-                <BookmarkPlus className="w-5 h-5" />
-              )}
-              <span className="ml-2">Save Job</span>
-            </button>
-          </div>
         </div>
+      </div>
+      <div className="px-4 py-3 flex justify-between items-center bg-gray-100">
+        <div className="text-xs text-gray-500">
+          {"Posted " + postedTime || "Recently posted"}
+        </div>
+
+        <button
+          onClick={onSaveJob}
+          className="flex items-center text-sm text-gray-600 hover:text-blue-600"
+        >
+          {isSaved ? (
+            <BookmarkCheck className="w-5 h-5 text-blue-600" />
+          ) : (
+            <BookmarkPlus className="w-5 h-5" />
+          )}
+          <span className="ml-2">Save Job</span>
+        </button>
       </div>
     </div>
   );
