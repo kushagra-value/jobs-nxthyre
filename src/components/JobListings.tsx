@@ -62,7 +62,7 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
     if (filteredJobs.length === 0) {
       const timer = setTimeout(() => {
         setShowNoJobsMessage(true);
-      }, 4000);
+      }, 7000);
 
       return () => {
         clearTimeout(timer);
@@ -144,6 +144,7 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center space-x-2 py-4">
+          {/* Prev Button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -155,7 +156,9 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
           >
             Prev
           </button>
-          {Array.from({ length: totalPages }, (_, i) => (
+
+          {/* Page Numbers */}
+          {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => (
             <button
               key={i + 1}
               onClick={() => handlePageChange(i + 1)}
@@ -168,6 +171,25 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
               {i + 1}
             </button>
           ))}
+
+          {/* Ellipsis + Last Page */}
+          {totalPages > 6 && (
+            <>
+              <span className="px-2 text-gray-500">...</span>
+              <button
+                onClick={() => handlePageChange(totalPages)}
+                className={`px-3 py-1 rounded ${
+                  currentPage === totalPages
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                {totalPages}
+              </button>
+            </>
+          )}
+
+          {/* Next Button */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}

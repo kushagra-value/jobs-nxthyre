@@ -1,7 +1,24 @@
-export type JobType = 'Full-Time' | 'Part-Time' | 'Contract' | 'Internship' | 'Freelance';
-export type WorkMode = 'Remote' | 'On-site' | 'Hybrid';
-export type Department = 'Engineering' | 'IT' | 'Sales' | 'Marketing' | 'Design' | 'Finance' | 'HR';
-export type JobFeature = 'Actively Hiring' | 'Good Job Culture' | 'Visa Sponsorship' | 'Flexible Hours' | 'Benefits Package';
+export type JobType =
+  | "Full-Time"
+  | "Part-Time"
+  | "Contract"
+  | "Internship"
+  | "Freelance";
+export type WorkMode = "Remote" | "On-site" | "Hybrid";
+export type Department =
+  | "Engineering"
+  | "IT"
+  | "Sales"
+  | "Marketing"
+  | "Design"
+  | "Finance"
+  | "HR";
+export type JobFeature =
+  | "Actively Hiring"
+  | "Good Job Culture"
+  | "Visa Sponsorship"
+  | "Flexible Hours"
+  | "Benefits Package";
 
 export interface Job {
   id: string;

@@ -43,13 +43,32 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
       );
     }
 
-    const [bgColor, initials] = companyLogo.split("|");
+    if (companyLogo.startsWith("http") || companyLogo.startsWith("https")) {
+      return (
+        <img
+          src={companyLogo}
+          alt={`${company} logo`}
+          className="w-10 h-10 rounded object-cover"
+        />
+      );
+    }
 
+    const parts = companyLogo.split("|");
+    if (parts.length === 2) {
+      const [bgColor, initials] = parts;
+      return (
+        <div
+          className={`w-10 h-10 rounded ${bgColor} flex items-center justify-center text-white font-semibold`}
+        >
+          {initials}
+        </div>
+      );
+    }
+
+    // Fallback if companyLogo is not in expected format
     return (
-      <div
-        className={`w-10 h-10 rounded ${bgColor} flex items-center justify-center text-white font-semibold`}
-      >
-        {initials}
+      <div className="w-10 h-10 rounded bg-gray-200 flex items-center justify-center text-gray-500 font-semibold">
+        ?
       </div>
     );
   };

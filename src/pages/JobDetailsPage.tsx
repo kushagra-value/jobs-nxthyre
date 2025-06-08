@@ -17,7 +17,7 @@ interface CompanyInfoProps {
   companyInfo: {
     company_name: string;
     analysis_date: string;
-    data: {
+    analysis_results: {
       company_overview: {
         business_description: string;
         industry: string;
@@ -69,7 +69,7 @@ interface CompanyInfoProps {
 
 const CompanyInfo: React.FC<CompanyInfoProps> = ({ companyInfo }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { company_name, data } = companyInfo;
+  const { company_name, analysis_results: data } = companyInfo;
 
   if (!data) {
     return <div></div>;
@@ -346,7 +346,7 @@ function JobDetailsPage() {
     if (job === null) {
       const timer = setTimeout(() => {
         setShowNotFoundMessage(true);
-      }, 4000);
+      }, 7000);
       return () => clearTimeout(timer);
     } else {
       setShowNotFoundMessage(false);
