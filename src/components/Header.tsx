@@ -19,9 +19,9 @@ const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center">
           <Link to="/" className="mr-10 flex items-center">
             <img
-              src="/NxtHyre_Logo.png"
+              src="/NxtHyre-Logo.png"
               alt="NxtHyre Logo"
-              className="h-14 w-auto" // h-14 for png transparent logo
+              className="h-5 w-auto" // h-14 for png transparent logo
             />
           </Link>
 
