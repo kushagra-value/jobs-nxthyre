@@ -37,41 +37,43 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
-      // Job Type Filter
-      if (filters.jobType.length > 0 && !filters.jobType.includes(job.jobType))
+      if (
+        filters.jobType.length > 0 &&
+        !filters.jobType.includes(job.jobType ?? "")
+      )
         return false;
 
-      // Location Filter
       if (
         filters.location.length > 0 &&
-        !filters.location.some((loc) => job.location.includes(loc))
+        !filters.location.some((loc) => (job.location ?? "").includes(loc))
       )
         return false;
 
-      // Company Filter
-      if (filters.company.length > 0 && !filters.company.includes(job.company))
+      if (
+        filters.company.length > 0 &&
+        !filters.company.includes(job.company ?? "")
+      )
         return false;
 
-      // Department Filter
       if (
         filters.department.length > 0 &&
-        !filters.department.includes(job.department)
+        !filters.department.includes(job.department ?? "")
       )
         return false;
 
-      // Job Features Filter
       if (
         filters.jobFeatures.length > 0 &&
-        !filters.jobFeatures.some((feature) =>
-          job.jobFeatures.includes(feature as import("../types").JobFeature)
+        !filters.jobFeatures.some(
+          (feature) =>
+            Array.isArray(job.jobFeatures) &&
+            job.jobFeatures.includes(feature as import("../types").JobFeature)
         )
       )
         return false;
 
-      // Experience Filter
       if (
         filters.experience.length > 0 &&
-        !filters.experience.includes(job.experience)
+        !filters.experience.includes(job.experience ?? "")
       )
         return false;
 
