@@ -52,6 +52,55 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
         </button>
       </div>
 
+      {/* Department Filters */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">DEPARTMENT</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, department: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {departmentOptions.map((option) => (
+            <FilterCheckbox
+              key={option.value}
+              label={option.label}
+              count={option.count}
+              checked={filters.department.includes(option.value)}
+              onChange={() => handleFilterChange("department", option.value)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Job Features */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-sm text-gray-500">JOB FEATURES</h3>
+          <button
+            onClick={() => setFilters((prev) => ({ ...prev, jobFeatures: [] }))}
+            className="text-gray-400 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+        <div className="space-y-2">
+          {jobFeaturesOptions.slice(0, 7).map((option) => (
+            <FilterCheckbox
+              key={option.value}
+              label={option.label}
+              count={option.count}
+              checked={filters.jobFeatures.includes(option.value)}
+              onChange={() => handleFilterChange("jobFeatures", option.value)}
+            />
+          ))}
+        </div>
+      </div>
+
       {/* Company Filters */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
@@ -122,55 +171,6 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
               count={option.count}
               checked={filters.jobType.includes(option.value)}
               onChange={() => handleFilterChange("jobType", option.value)}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Department Filters */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">DEPARTMENT</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, department: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          {departmentOptions.map((option) => (
-            <FilterCheckbox
-              key={option.value}
-              label={option.label}
-              count={option.count}
-              checked={filters.department.includes(option.value)}
-              onChange={() => handleFilterChange("department", option.value)}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Job Features */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-sm text-gray-500">JOB FEATURES</h3>
-          <button
-            onClick={() => setFilters((prev) => ({ ...prev, jobFeatures: [] }))}
-            className="text-gray-400 text-xs"
-          >
-            Clear
-          </button>
-        </div>
-        <div className="space-y-2">
-          {jobFeaturesOptions.slice(0, 7).map((option) => (
-            <FilterCheckbox
-              key={option.value}
-              label={option.label}
-              count={option.count}
-              checked={filters.jobFeatures.includes(option.value)}
-              onChange={() => handleFilterChange("jobFeatures", option.value)}
             />
           ))}
         </div>

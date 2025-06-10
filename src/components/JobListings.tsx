@@ -25,7 +25,7 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const jobsPerPage = 5;
+  const jobsPerPage = 7;
 
   const handleSaveJob = (jobId: string) => {
     setSavedJobs((prev) =>
@@ -37,15 +37,44 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
+      // Job Type Filter
       if (filters.jobType.length > 0 && !filters.jobType.includes(job.jobType))
         return false;
+
+      // Location Filter
       if (
         filters.location.length > 0 &&
-        !filters.location.includes(job.location)
+        !filters.location.some((loc) => job.location.includes(loc))
       )
         return false;
+
+      // Company Filter
       if (filters.company.length > 0 && !filters.company.includes(job.company))
         return false;
+
+      // Department Filter
+      if (
+        filters.department.length > 0 &&
+        !filters.department.includes(job.department)
+      )
+        return false;
+
+      // Job Features Filter
+      if (
+        filters.jobFeatures.length > 0 &&
+        !filters.jobFeatures.some((feature) =>
+          job.jobFeatures.includes(feature as import("../types").JobFeature)
+        )
+      )
+        return false;
+
+      // Experience Filter
+      if (
+        filters.experience.length > 0 &&
+        !filters.experience.includes(job.experience)
+      )
+        return false;
+
       return true;
     });
   }, [jobs, filters]);
