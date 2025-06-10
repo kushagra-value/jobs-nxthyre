@@ -109,6 +109,24 @@ function HomePage() {
       .slice(0, 7);
   }, [jobs]);
 
+  // Calculate job features options
+  const allJobFeatures = jobs.flatMap((job) => job.jobFeatures);
+  const uniqueJobFeatures = [...new Set(allJobFeatures)];
+  const jobFeaturesOptions = uniqueJobFeatures.map((feature) => ({
+    label: feature,
+    value: feature,
+    count: jobs.filter((job) => job.jobFeatures.includes(feature)).length,
+  }));
+
+  // Calculate experience options
+  const allExperiences = jobs.map((job) => job.experience);
+  const uniqueExperiences = [...new Set(allExperiences)];
+  const experienceOptions = uniqueExperiences.map((exp) => ({
+    label: exp,
+    value: exp,
+    count: jobs.filter((job) => job.experience === exp).length,
+  }));
+
   return (
     <div className="min-h-screen bg-white">
       <Header
@@ -128,6 +146,8 @@ function HomePage() {
             locationOptions={locationOptions}
             jobTypeOptions={jobTypeOptions}
             departmentOptions={departmentOptions}
+            jobFeaturesOptions={jobFeaturesOptions} // New dynamic prop
+            experienceOptions={experienceOptions} // New dynamic prop
           />
         </div>
 

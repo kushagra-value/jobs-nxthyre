@@ -10,6 +10,8 @@ interface FiltersSidebarProps {
   locationOptions?: { label: string; value: string; count: number }[];
   jobTypeOptions?: { label: string; value: string; count: number }[];
   departmentOptions?: { label: string; value: string; count: number }[];
+  jobFeaturesOptions?: { label: string; value: string; count: number }[]; // Added
+  experienceOptions?: { label: string; value: string; count: number }[]; // Added
 }
 
 const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
@@ -20,6 +22,8 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
   locationOptions = [],
   jobTypeOptions = [],
   departmentOptions = [],
+  jobFeaturesOptions = [], // Default to empty array
+  experienceOptions = [], // Default to empty array
 }) => {
   const handleFilterChange = (category: keyof FilterState, value: string) => {
     setFilters((prev) => {
@@ -35,21 +39,6 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
       };
     });
   };
-
-  const jobFeatures = [
-    "Actively Hiring",
-    "Good Job Culture",
-    "Flexible Hours",
-    "Remote Friendly",
-  ];
-
-  const experienceLevels = [
-    { label: "0-1 Years", count: 6 },
-    { label: "1-3 Years", count: 4 },
-    { label: "3-5 Years", count: 7 },
-    { label: "5-7 Years", count: 9 },
-    { label: "7+ Years", count: 8 },
-  ];
 
   return (
     <div className="bg-white pl-5 pr-9 pb-5 h-fit">
@@ -174,15 +163,14 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             Clear
           </button>
         </div>
-
         <div className="space-y-2">
-          {jobFeatures.map((feature) => (
+          {jobFeaturesOptions.slice(0, 7).map((option) => (
             <FilterCheckbox
-              key={feature}
-              label={feature}
-              count={42}
-              checked={filters.jobFeatures.includes(feature)}
-              onChange={() => handleFilterChange("jobFeatures", feature)}
+              key={option.value}
+              label={option.label}
+              count={option.count}
+              checked={filters.jobFeatures.includes(option.value)}
+              onChange={() => handleFilterChange("jobFeatures", option.value)}
             />
           ))}
         </div>
@@ -199,19 +187,17 @@ const FiltersSidebar: React.FC<FiltersSidebarProps> = ({
             Clear
           </button>
         </div>
-
         <div className="space-y-2">
-          {experienceLevels.map((exp) => (
+          {experienceOptions.slice(0, 7).map((option) => (
             <FilterCheckbox
-              key={exp.label}
-              label={exp.label}
-              count={exp.count}
-              checked={filters.experience.includes(exp.label)}
-              onChange={() => handleFilterChange("experience", exp.label)}
+              key={option.value}
+              label={option.label}
+              count={option.count}
+              checked={filters.experience.includes(option.value)}
+              onChange={() => handleFilterChange("experience", option.value)}
             />
           ))}
         </div>
-
         <button className="text-gray-500 mt-3 text-sm hover:text-gray-700">
           More →
         </button>
