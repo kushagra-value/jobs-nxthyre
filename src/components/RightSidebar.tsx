@@ -7,40 +7,48 @@ interface RightSidebarProps {
 
 const RightSidebar: React.FC<RightSidebarProps> = ({ companies }) => {
   const [email, setEmail] = useState("richard@piedpiper.com");
+  const [showSubscription, setShowSubscription] = useState(true);
 
   return (
     <div className="space-y-6">
       {/* User Info Section */}
-      <div className="bg-white p-5">
-        <div className="mb-4">
-          <h2 className="font-semibold text-lg">
-            Be the first to see new jobs in{" "}
-            <span className="text-blue-600">Bengaluru, IND</span>
-          </h2>
-        </div>
+      {showSubscription && (
+        <div className="bg-white p-5">
+          <div className="mb-4">
+            <h2 className="font-semibold text-lg">
+              Be the first to see new jobs in{" "}
+              <span className="text-blue-600">Bengaluru, IND</span>
+            </h2>
+          </div>
 
-        <div className="relative mb-4">
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 pt-6 pb-2 border bg-white border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <label
-            htmlFor="email"
-            className="absolute left-3 top-2 text-xs text-gray-500"
+          <div className="relative mb-4">
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 pt-6 pb-2 border bg-white border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <label
+              htmlFor="email"
+              className="absolute left-3 top-2 text-xs text-gray-500"
+            >
+              Email
+            </label>
+          </div>
+
+          <button className="w-full border border-indigo-400 bg-blue-200 bg-opacity-20 hover:bg-opacity-40 text-indigo-600 font-medium py-2 rounded transition duration-200">
+            Subscribe Now
+          </button>
+
+          <button
+            onClick={() => setShowSubscription(false)}
+            className="text-xs text-gray-500 mt-2 hover:underline cursor-pointer"
           >
-            Email
-          </label>
+            Not interested? Hide now
+          </button>
         </div>
-
-        <button className="w-full border border-indigo-400 bg-blue-200 bg-opacity-20 hover:bg-opacity-40 text-indigo-600 font-medium py-2 rounded transition duration-200">
-          Subscribe Now
-        </button>
-
-        <p className="text-xs text-gray-500 mt-2">Not interested? Hide now</p>
-      </div>
+      )}
 
       {/* Popular Companies Section */}
       <div className="bg-white rounded-lg shadow p-5">

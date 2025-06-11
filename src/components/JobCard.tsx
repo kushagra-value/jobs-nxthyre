@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Job } from "../types";
 import { BookmarkPlus, BookmarkCheck } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface JobCardProps {
   job: Job;
@@ -84,6 +85,18 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
     return null;
   };
 
+  const handleSaveJob = () => {
+    toast.info("Coming soon...", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    onSaveJob(); // Keep original handler for state updates
+  };
+
   return (
     <div className="border border-gray-200 rounded-md shadow-lg mb-4 hover:bg-gray-50 transition-colors relative">
       {renderBadge()}
@@ -128,7 +141,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, isSaved, onSaveJob }) => {
         </div>
 
         <button
-          onClick={onSaveJob}
+          onClick={handleSaveJob}
           className="flex items-center text-sm text-gray-600 hover:text-blue-600"
         >
           {isSaved ? (

@@ -85,6 +85,17 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ companyInfo }) => {
     recent_news,
   } = data;
 
+  // Helper function to determine if a field should be displayed
+  const shouldDisplay = (value: any) => {
+    if (typeof value === "string") {
+      return value && value !== "N/A"; // For strings: not empty, not "N/A"
+    } else if (typeof value === "number") {
+      return value != null; // For numbers: not null or undefined
+    } else {
+      return false; // For other types, default to not displaying
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
       <h2 className="text-xl font-semibold mb-4">
@@ -95,27 +106,44 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ companyInfo }) => {
           isExpanded ? "" : "max-h-60 overflow-hidden"
         }`}
       >
-        <p className="text-gray-600 mb-4">
-          {company_overview.business_description || "N/A"}
-        </p>
+        {/* Business Description */}
+        {shouldDisplay(company_overview.business_description) && (
+          <p className="text-gray-600 mb-4">
+            {company_overview.business_description}
+          </p>
+        )}
+
+        {/* Key Stats */}
         <h3 className="font-semibold text-gray-600 mb-2">Key Stats : </h3>
         <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="text-gray-600 mb-2">
-            <span>Industry:</span> {company_overview.industry || "N/A"}
-          </div>
-          <div className="text-gray-600 mb-2">
-            <span>Founded:</span> {company_overview.founded_year || "N/A"}
-          </div>
-          <div className="text-gray-600 mb-2">
-            <span>Headquarters:</span> {company_overview.headquarters || "N/A"}
-          </div>
-          <div className="text-gray-600 mb-2">
-            <span>Employees:</span> {company_overview.employee_count || "N/A"}
-          </div>
-          <div className="text-gray-600 mb-2">
-            <span>Revenue:</span> {company_overview.annual_revenue || "N/A"}
-          </div>
+          {shouldDisplay(company_overview.industry) && (
+            <div className="text-gray-600 mb-2">
+              <span>Industry:</span> {company_overview.industry}
+            </div>
+          )}
+          {shouldDisplay(company_overview.founded_year) && (
+            <div className="text-gray-600 mb-2">
+              <span>Founded:</span> {company_overview.founded_year}
+            </div>
+          )}
+          {shouldDisplay(company_overview.headquarters) && (
+            <div className="text-gray-600 mb-2">
+              <span>Headquarters:</span> {company_overview.headquarters}
+            </div>
+          )}
+          {shouldDisplay(company_overview.employee_count) && (
+            <div className="text-gray-600 mb-2">
+              <span>Employees:</span> {company_overview.employee_count}
+            </div>
+          )}
+          {shouldDisplay(company_overview.annual_revenue) && (
+            <div className="text-gray-600 mb-2">
+              <span>Revenue:</span> {company_overview.annual_revenue}
+            </div>
+          )}
         </div>
+
+        {/* Work Culture */}
         <div className="mb-4">
           <h3 className="font-semibold text-gray-600 mb-2">Work Culture : </h3>
           <p className="text-gray-600">
@@ -132,10 +160,19 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ companyInfo }) => {
                 ))}
             </ul>
           )}
-          {work_culture_assessment.review_count && (
-            <p>{work_culture_assessment.review_count} reviews</p>
+          {shouldDisplay(work_culture_assessment.review_count) && (
+            <>
+              <h3 className="font-semibold text-gray-600 mb-2 mt-4">
+                Reviews :{" "}
+              </h3>
+              <p className="text-gray-600">
+                {work_culture_assessment.review_count} reviews
+              </p>
+            </>
           )}
         </div>
+
+        {/* Flexibility */}
         <div className="mb-4">
           <h3 className="font-semibold text-gray-600 mb-2">Flexibility : </h3>
           <div className="flex space-x-4 text-gray-600">
@@ -143,35 +180,51 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ companyInfo }) => {
             {work_flexibility.flexible_hours && <span>Flexible Hours</span>}
           </div>
         </div>
-        {compensation_data.average_pay_overall && (
+
+        {/* Average Pay */}
+        {shouldDisplay(compensation_data.average_pay_overall) && (
           <div className="mb-4">
             <h3 className="font-semibold text-gray-600 mb-2">Average Pay : </h3>
             <p className="text-gray-600">
               {compensation_data.average_pay_overall}{" "}
-              {compensation_data.currency || ""}
+              {shouldDisplay(compensation_data.currency)
+                ? compensation_data.currency
+                : ""}
             </p>
           </div>
         )}
+
+        {/* Employee Retention */}
         <div className="mb-4">
           <h3 className="font-semibold text-gray-600 mb-2">
             Employee Retention :{" "}
           </h3>
-          <p className="text-gray-600">
-            Median Tenure: {employee_retention.median_tenure || "N/A"} years
-          </p>
-          <p className="text-gray-600">
-            Turnover: {employee_retention.turnover_indicator || "N/A"}
-          </p>
+          {shouldDisplay(employee_retention.median_tenure) && (
+            <p className="text-gray-600">
+              Median Tenure: {employee_retention.median_tenure} years
+            </p>
+          )}
+          {shouldDisplay(employee_retention.turnover_indicator) && (
+            <p className="text-gray-600">
+              Turnover: {employee_retention.turnover_indicator}
+            </p>
+          )}
         </div>
+
+        {/* Leadership */}
         <div className="mb-4">
           <h3 className="font-semibold text-gray-600 mb-2">Leadership : </h3>
-          <p className="text-gray-600">
-            CEO: {leadership_info.ceo_name || "N/A"}
-          </p>
-          <p className="text-gray-600">
-            Founder: {leadership_info.founder_name || "N/A"}
-          </p>
+          {shouldDisplay(leadership_info.ceo_name) && (
+            <p className="text-gray-600">CEO: {leadership_info.ceo_name}</p>
+          )}
+          {shouldDisplay(leadership_info.founder_name) && (
+            <p className="text-gray-600">
+              Founder: {leadership_info.founder_name}
+            </p>
+          )}
         </div>
+
+        {/* Recent News */}
         {recent_news.recent_updates.length > 0 && (
           <div>
             <h3 className="font-semibold text-gray-600 mb-2">Recent News : </h3>
@@ -187,6 +240,7 @@ const CompanyInfo: React.FC<CompanyInfoProps> = ({ companyInfo }) => {
             ))}
           </div>
         )}
+
         {!isExpanded && (
           <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
         )}

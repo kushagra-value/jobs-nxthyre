@@ -5,6 +5,8 @@ import FiltersSidebar from "../components/FiltersSidebar";
 import JobListings from "../components/JobListings";
 import RightSidebar from "../components/RightSidebar";
 import { Job, FilterState } from "../types";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function HomePage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -248,6 +250,7 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <ToastContainer />
       <Header
         showUploadModal={showUploadModal}
         setShowUploadModal={setShowUploadModal}
