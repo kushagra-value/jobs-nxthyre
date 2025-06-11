@@ -5,7 +5,7 @@ import JobCard from "./JobCard";
 interface JobListingsProps {
   jobs: Job[];
   filters: FilterState;
-  loading: boolean;
+  loading?: boolean;
 }
 
 function JobListingsSkeleton() {
@@ -18,12 +18,66 @@ function JobListingsSkeleton() {
   );
 }
 
+// Helper function to parse postedTime strings into Date objects
+function parsePostedTime(postedTime: string | null): number {
+  if (!postedTime || postedTime.toLowerCase() === "not specified") {
+    return -Infinity; // Push to end for newest-first sorting
+  }
+  const now = new Date();
+  const timeRegex = /(\d+)\s+(hour|day|week|month|year)s?\s+ago/;
+  const match = postedTime.match(timeRegex);
+  if (match) {
+    const amount = parseInt(match[1], 10);
+    const unit = match[2];
+    const date = new Date(now);
+    switch (unit) {
+      case "hour":
+        date.setHours(now.getHours() - amount);
+        break;
+      case "day":
+        date.setDate(now.getDate() - amount);
+        break;
+      case "week":
+        date.setDate(now.getDate() - amount * 7);
+        break;
+      case "month":
+        date.setMonth(now.getMonth() - amount);
+        break;
+      case "year":
+        date.setFullYear(now.getFullYear() - amount);
+        break;
+      default:
+        return now.getTime();
+    }
+    return date.getTime();
+  }
+  return -Infinity; // Push to end if parsing fails
+}
+
+// Helper function to parse salary strings into numerical values
+function parseSalary(salary: string | null): number {
+  if (!salary || salary.toLowerCase() === "not specified") {
+    return -Infinity; // Push to end for high-to-low sorting
+  }
+  const rangeRegex = /(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)\s*LPA/;
+  const match = salary.match(rangeRegex);
+  if (match) {
+    const lower = parseFloat(match[1]);
+    const upper = parseFloat(match[2]);
+    return (lower + upper) / 2; // Average of the salary range
+  }
+  const singleRegex = /(\d+(?:\.\d+)?)\s*LPA/;
+  const singleMatch = salary.match(singleRegex);
+  if (singleMatch) {
+    return parseFloat(singleMatch[1]); // Single salary value
+  }
+  return -Infinity; // Push to end if parsing fails
+}
+
 const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
-  const [sortBy, setSortBy] = useState<string>("Date Posted");
+  const [sortBy, setSortBy] = useState<string>("Relevance");
   const [savedJobs, setSavedJobs] = useState<string[]>([]);
   const [showNoJobsMessage, setShowNoJobsMessage] = useState(false);
-
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 7;
 
@@ -81,19 +135,52 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
     });
   }, [jobs, filters]);
 
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+  // Sort the filtered jobs based on the sortBy value
+  const sortedJobs = useMemo(() => {
+    const jobsToSort = [...filteredJobs];
+    switch (sortBy) {
+      case "Date Posted":
+        return jobsToSort.sort((a, b) => {
+          const dateA = parsePostedTime(a.postedTime);
+          const dateB = parsePostedTime(b.postedTime);
+          return dateB - dateA; // Newest first
+        });
+      case "Relevance":
+        return jobsToSort; // Default order
+      case "Salary: High to Low":
+        return jobsToSort.sort((a, b) => {
+          const salaryA = parseSalary(a.salary);
+          const salaryB = parseSalary(b.salary);
+          return salaryB - salaryA; // Highest first
+        });
+      case "Salary: Low to High":
+        return jobsToSort.sort((a, b) => {
+          const salaryA = parseSalary(a.salary);
+          const salaryB = parseSalary(b.salary);
+          // Handle -Infinity to push to end
+          if (salaryA === -Infinity && salaryB === -Infinity) return 0;
+          if (salaryA === -Infinity) return 1;
+          if (salaryB === -Infinity) return -1;
+          return salaryA - salaryB; // Lowest first
+        });
+      default:
+        return jobsToSort;
+    }
+  }, [filteredJobs, sortBy]);
+
+  const totalPages = Math.ceil(sortedJobs.length / jobsPerPage);
 
   const currentJobs = useMemo(() => {
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    return filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
-  }, [filteredJobs, currentPage]);
+    return sortedJobs.slice(indexOfFirstJob, indexOfLastJob);
+  }, [sortedJobs, currentPage]);
 
   useEffect(() => {
     if (filteredJobs.length === 0) {
       const timer = setTimeout(() => {
         setShowNoJobsMessage(true);
-      }, 7000);
+      }, 10000);
 
       return () => {
         clearTimeout(timer);
@@ -128,8 +215,8 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
               onChange={(e) => setSortBy(e.target.value)}
               className="appearance-none bg-transparent pr-5 pl-1 font-medium text-blue-600 cursor-pointer focus:outline-none"
             >
-              <option>Date Posted</option>
               <option>Relevance</option>
+              <option>Date Posted</option>
               <option>Salary: High to Low</option>
               <option>Salary: Low to High</option>
             </select>
@@ -175,7 +262,6 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center space-x-2 py-4">
-          {/* Prev Button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -188,7 +274,6 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
             Prev
           </button>
 
-          {/* Page Numbers */}
           {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => (
             <button
               key={i + 1}
@@ -203,7 +288,6 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
             </button>
           ))}
 
-          {/* Ellipsis + Last Page */}
           {totalPages > 6 && (
             <>
               <span className="px-2 text-gray-500">...</span>
@@ -220,7 +304,6 @@ const JobListings: React.FC<JobListingsProps> = ({ jobs, filters }) => {
             </>
           )}
 
-          {/* Next Button */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}

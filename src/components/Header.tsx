@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({
             />
           </Link>
 
-          <nav className="hidden md:flex">
+          {/* <nav className="hidden md:flex">
             <ul className="flex space-x-10">
               <li>
                 <Link to="/jobs" className="font-semibold">
@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({
                 </Link>
               </li>
             </ul>
-          </nav>
+          </nav> */}
         </div>
 
         <div className="flex items-center space-x-8">

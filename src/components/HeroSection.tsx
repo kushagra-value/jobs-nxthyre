@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import SearchForm from "./SearchForm";
 
-const HeroSection: React.FC = () => {
-  const [jobTitle, setJobTitle] = useState<string>("Designer");
-  const [location, setLocation] = useState<string>("Chicago, IL");
+interface HeroSectionProps {
+  onSearch: (jobTitle: string, location: string) => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onSearch }) => {
+  const [jobTitle, setJobTitle] = useState<string>("Data Science");
+  const [location, setLocation] = useState<string>("Bengaluru, IND");
 
   const handleSearch = () => {
-    console.log("Searching for:", { jobTitle, location });
-    // In a real app, this would trigger the search
+    onSearch(jobTitle, location);
   };
 
   return (
