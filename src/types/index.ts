@@ -55,6 +55,12 @@ export interface Job {
     industry: string | null;
   };
   reviews: any[];
+  apply_options: [
+    {
+      title: string; // e.g., "Email", "Link", "Form"
+      link: string; // e.g., email address, application link, form URL
+    }
+  ];
 }
 
 export interface Company {

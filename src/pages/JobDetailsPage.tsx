@@ -351,6 +351,7 @@ function JobDetailsPage() {
   const [job, setJob] = useState<Job | null>(null);
   const [relatedJobs, setRelatedJobs] = useState<Job[]>([]);
   const [showNotFoundMessage, setShowNotFoundMessage] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const slugify = (text) => {
     return text
@@ -437,9 +438,31 @@ function JobDetailsPage() {
                     <span>{job.company || "N/A"}</span>
                   </div>
                 </div>
-                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
-                  Apply Now
-                </button>
+                {/* Updated Apply Now Button with Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                  >
+                    Apply Now
+                  </button>
+                  {isDropdownOpen && job.apply_options && (
+                    <div className="absolute mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                      {job.apply_options.map((option, index) => (
+                        <a
+                          key={index}
+                          href={option.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          {option.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="flex items-center text-gray-600">
